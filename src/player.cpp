@@ -25,5 +25,5 @@ void player::draw()
     {
         position.x += movementSpeed;
     }
-    DrawRectangle(position.x, position.y,40,40, BLUE);
+    DrawRectangle(position.x-20, position.y,40,40, BLUE);
 }
