@@ -3,7 +3,6 @@
 
 
 #include <raylib.h>
-#include "player.h"
 
 class player
 {
