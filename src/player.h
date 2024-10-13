@@ -11,9 +11,11 @@ private:
 public:
     Vector2 position = {0,0};
     float movementSpeed = 5;
+    Texture2D playerSpritesheet;
+    float playerSize = 4.0;
 
 
-    player();
+    player(const char* playerImagePath);
     ~player();
 
     void draw();

@@ -11,14 +11,14 @@ int main()
     InitWindow(800,600, "Skyrunner");
     SetTargetFPS(30);
 
-    player player;
+    player player("resources/playerSheet.png");
     playerCamera camera(&player.position);
 
     while (WindowShouldClose() == false)
     {
 
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(Color{139, 109, 156, 1});
         BeginMode2D(camera.update());
 
 
