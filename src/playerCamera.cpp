@@ -20,17 +20,17 @@ Camera2D playerCamera::update()
 {
     if(IsKeyDown(KEY_A))
     {
-        currentCameraPos = {Lerp(currentCameraPos.x,playerPos->x - 300, 0.04f), Lerp(currentCameraPos.y,playerPos->y -50, 0.06f)};
+        currentCameraPos = {Lerp(currentCameraPos.x,playerPos->x - 300, 0.04f), Lerp(currentCameraPos.y,playerPos->y -50, 0.1f)};
         currentCameraZoom = Lerp(currentCameraZoom,0.8f, 0.04f);
     }
     else if(IsKeyDown(KEY_D))
     {
-        currentCameraPos = {Lerp(currentCameraPos.x,playerPos->x + 300, 0.04f), Lerp(currentCameraPos.y,playerPos->y -50, 0.06f)};
+        currentCameraPos = {Lerp(currentCameraPos.x,playerPos->x + 300, 0.04f), Lerp(currentCameraPos.y,playerPos->y -50, 0.1f)};
         currentCameraZoom = Lerp(currentCameraZoom,0.8f, 0.04f);
     }
     else
     {
-        currentCameraPos = {Lerp(currentCameraPos.x,playerPos->x, 0.05f), Lerp(currentCameraPos.y,playerPos->y -50, 0.06f)};
+        currentCameraPos = {Lerp(currentCameraPos.x,playerPos->x, 0.05f), Lerp(currentCameraPos.y,playerPos->y -50, 0.1f)};
         currentCameraZoom = Lerp(currentCameraZoom,1.4f, 0.02f);
     }
     camera.target = (Vector2){currentCameraPos};

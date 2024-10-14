@@ -51,11 +51,45 @@ void player::draw()
             velocity.x = velocity.x;
         }
     }
+    
+
+
+    if(IsKeyDown(KEY_SPACE) && groundCheck == true)
+    {
+        velocity.y += -10;
+    }
+
     position.x += velocity.x;
+    position.y += velocity.y;
+
+    collisonRec = {position.x-32, position.y - 64 ,64,128};
 
     Rectangle destRec = { position.x, position.y, frameRec.width * playerSize, frameRec.height * playerSize };
-    DrawRectangle(position.x-32, position.y - 64 ,64,128, {0,0,0,100});
+    DrawRectangleRec(collisonRec, {0,0,0,100});
 
     Vector2 origin = {32.0f, 64.0f };
     DrawTexturePro(playerSpritesheet, frameRec, destRec, origin, 0.0f, WHITE);
+}
+
+
+
+void player::collisionCheck(Rectangle * envRecs, int envRecsLenght)
+{
+    for (int i = 0; i < envRecsLenght; i++)
+    {
+        Rectangle envRec = envRecs[i];
+        if (CheckCollisionRecs(collisonRec, envRec))
+        {
+            velocity.y = 0;
+            groundCheck = true;
+        }
+        else
+        {
+            groundCheck = false;
+            if(velocity.y <= maxVelocity.y)
+            {
+                velocity.y += gravity;
+            }
+        }
+    }
 }

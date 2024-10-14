@@ -2,6 +2,7 @@
     "cmake.ignoreCMakeListsMissing": true,
     "files.associations": {
         "*.ejs": "html",
-        "regex": "cpp"
+        "regex": "cpp",
+        "__node_handle": "cpp"
     }
 }

@@ -11,6 +11,13 @@ int main()
     InitWindow(800,600, "Skyrunner");
     SetTargetFPS(30);
 
+    Rectangle envRecs[] =
+    {
+        {-600,64,1200,40}
+    };
+
+    int envRecsLength = sizeof(envRecs)/sizeof(envRecs[0]);
+
     player player("resources/playerSheet.png");
     playerCamera camera(&player.position);
 
@@ -22,7 +29,9 @@ int main()
         BeginMode2D(camera.update());
 
 
-        DrawRectangle(-600,64,1200,40,BLACK);
+        DrawRectangleRec(envRecs[0],BLACK);
+
+        player.collisionCheck(envRecs, envRecsLength);
         player.draw();
 
         EndMode2D();
