@@ -22,7 +22,7 @@ int main()
         BeginMode2D(camera.update());
 
 
-        DrawRectangle(-600,40,1200,40,BLACK);
+        DrawRectangle(-600,64,1200,40,BLACK);
         player.draw();
 
         EndMode2D();
