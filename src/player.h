@@ -15,9 +15,10 @@ public:
 
     Vector2 position = {0,0};
     Vector2 velocity = {0,1};
-    Vector2 maxVelocity = {10, 100};
+    Vector2 maxVelocity = {12, 100};
     float movementSpeed = 100.0f;
-    float gravity = 1.0f;
+    float jumpForce = 20;
+    float gravity = 3.5f;
     float horizontalDampening = 0.5f;
 
     bool groundCheck = true;

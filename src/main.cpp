@@ -13,7 +13,10 @@ int main()
 
     Rectangle envRecs[] =
     {
-        {-600,64,1200,40}
+        {-600,64,1200,40},
+        {300, 100,600,40},
+        {600, 100,600,3000},
+        {1300, 100,600,3000},
     };
 
     int envRecsLength = sizeof(envRecs)/sizeof(envRecs[0]);
@@ -28,8 +31,10 @@ int main()
         ClearBackground(Color{139, 109, 156, 1});
         BeginMode2D(camera.update());
 
-
-        DrawRectangleRec(envRecs[0],BLACK);
+        for (int i = 0; i < envRecsLength; i++)
+        {
+            DrawRectangleRec(envRecs[i],BLACK);
+        }
 
         player.collisionCheck(envRecs, envRecsLength);
         player.draw();

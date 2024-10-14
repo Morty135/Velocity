@@ -38,11 +38,11 @@ void player::draw()
     }
     else
     {
-        if(velocity.x > 0)
+        if(velocity.x > 0.1)
         {
             velocity.x -= horizontalDampening;
         }
-        else if(velocity.x < 0)
+        else if(velocity.x < -0.1)
         {
             velocity.x += horizontalDampening;
         }
@@ -56,7 +56,7 @@ void player::draw()
 
     if(IsKeyDown(KEY_SPACE) && groundCheck == true)
     {
-        velocity.y += -10;
+        velocity.y += -jumpForce;
     }
 
     position.x += velocity.x;
@@ -75,21 +75,26 @@ void player::draw()
 
 void player::collisionCheck(Rectangle * envRecs, int envRecsLenght)
 {
+    int colRecs = 0;
     for (int i = 0; i < envRecsLenght; i++)
     {
         Rectangle envRec = envRecs[i];
         if (CheckCollisionRecs(collisonRec, envRec))
         {
-            velocity.y = 0;
-            groundCheck = true;
+            colRecs++;
         }
-        else
+    }
+    if(colRecs > 0)
+    {
+        groundCheck = true;
+        velocity.y = 0;
+    }
+    else
+    {
+        groundCheck = false;
+        if(velocity.y <= maxVelocity.y)
         {
-            groundCheck = false;
-            if(velocity.y <= maxVelocity.y)
-            {
-                velocity.y += gravity;
-            }
+            velocity.y += gravity;
         }
     }
 }
