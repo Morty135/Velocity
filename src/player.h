@@ -8,6 +8,9 @@
 class player
 {
 private:
+    float defaultGravity;
+
+    void playerAnimator();
 
 public:
     Texture2D playerSpritesheet;

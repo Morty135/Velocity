@@ -5,6 +5,7 @@
 player::player(const char* playerImagePath)
 {
     playerSpritesheet = LoadTexture(playerImagePath);
+    defaultGravity = gravity;
 }
 
 
@@ -88,6 +89,7 @@ void player::collisionCheck(Rectangle * envRecs, int envRecsLenght)
     {
         groundCheck = true;
         velocity.y = 0;
+        gravity = 0;
     }
     else
     {
@@ -96,5 +98,6 @@ void player::collisionCheck(Rectangle * envRecs, int envRecsLenght)
         {
             velocity.y += gravity;
         }
+        gravity = defaultGravity;
     }
 }
