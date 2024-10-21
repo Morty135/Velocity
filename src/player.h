@@ -5,6 +5,8 @@
 #include <raylib.h>
 #include <raymath.h>
 
+#include <iostream>
+
 class player
 {
 private:
@@ -13,7 +15,7 @@ private:
     void playerAnimator();
 
 public:
-    Texture2D playerSpritesheet;
+    Texture2D playerSprites[2];
     float playerSize = 4.0;
 
     Vector2 position = {0,0};
@@ -29,7 +31,7 @@ public:
     Rectangle collisonRec = {position.x-32, position.y - 64 ,64,128};
 
 
-    player(const char* playerImagePath);
+    player();
     ~player();
 
     void draw();

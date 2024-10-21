@@ -21,7 +21,7 @@ int main()
 
     int envRecsLength = sizeof(envRecs)/sizeof(envRecs[0]);
 
-    player player("resources/playerIdle.png");
+    player player;
     playerCamera camera(&player.position);
 
     while (WindowShouldClose() == false)

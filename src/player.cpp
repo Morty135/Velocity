@@ -2,9 +2,9 @@
 
 
 
-player::player(const char* playerImagePath)
+player::player()
 {
-    playerSpritesheet = LoadTexture(playerImagePath);
+    playerSprites[0] = LoadTexture("resources/runAnim.png");
     defaultGravity = gravity;
 }
 
@@ -12,22 +12,18 @@ player::player(const char* playerImagePath)
 
 player::~player()
 {
-    UnloadTexture(playerSpritesheet);
+    UnloadTexture(playerSprites[0]);
 }
 
 
 void player::draw()
 {
-    Rectangle frameRec = { 0.0f, 32.0f, (float)playerSpritesheet.width/8, 64.0f};
-    
-    
     if(IsKeyDown(KEY_A))
     {
         if(velocity.x >= -maxVelocity.x)
         {
             velocity.x -= movementSpeed * GetFrameTime();
         }
-        frameRec = { 0.0f, 32.0f, -(float)playerSpritesheet.width/8, 64.0f};
     }
     if(IsKeyDown(KEY_D))
     {
@@ -65,11 +61,8 @@ void player::draw()
 
     collisonRec = {position.x-32, position.y - 64 ,64,128};
 
-    Rectangle destRec = { position.x, position.y, frameRec.width * playerSize, frameRec.height * playerSize };
     DrawRectangleRec(collisonRec, {0,0,0,100});
-
-    Vector2 origin = {32.0f, 64.0f };
-    DrawTexturePro(playerSpritesheet, frameRec, destRec, origin, 0.0f, WHITE);
+    playerAnimator();
 }
 
 
@@ -100,4 +93,37 @@ void player::collisionCheck(Rectangle * envRecs, int envRecsLenght)
         }
         gravity = defaultGravity;
     }
+}
+
+
+float frameTime = 0;
+int i;
+
+void player::playerAnimator()
+{
+    float spriteWidth = (float)playerSprites[0].width/8;
+    Rectangle frameRec = { 0.0f, 0.0f, spriteWidth, 32.0f};
+    std::cout << playerSprites[0].format;
+
+
+    frameTime +=  17 * GetFrameTime();
+
+    if(frameTime > 1)
+    {
+        frameTime = 0;
+        i++;
+    }
+    if(velocity.x < 0)
+    {
+        frameRec = { 0.0f + spriteWidth * i, 0.0f, -spriteWidth, 32.0f};
+    }
+    else
+    {
+        frameRec = { 0.0f + spriteWidth * i, 0.0f, spriteWidth, 32.0f};
+    }
+
+    Rectangle destRec = { position.x, position.y, frameRec.width * playerSize, frameRec.height * playerSize };
+
+    Vector2 origin = {32.0f, 64.0f };
+    DrawTexturePro(playerSprites[0], frameRec, destRec, origin, 0.0f, WHITE);
 }
