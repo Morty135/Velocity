@@ -1,0 +1,3 @@
+finish the animation system
+
+rewrite the player files

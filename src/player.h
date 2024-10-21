@@ -10,6 +10,7 @@
 class player
 {
 private:
+    float gravity = 100.5f;
     float defaultGravity;
 
     void playerAnimator();
@@ -19,12 +20,11 @@ public:
     float playerSize = 4.0;
 
     Vector2 position = {0,0};
-    Vector2 velocity = {0,1};
+    Vector2 velocity = {0,0};
     Vector2 maxVelocity = {12, 100};
-    float movementSpeed = 100.0f;
+    float movementSpeed = 80.0f;
     float jumpForce = 20;
-    float gravity = 3.5f;
-    float horizontalDampening = 0.5f;
+    float horizontalDampening = 25;
 
     bool groundCheck = true;
 

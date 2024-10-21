@@ -2,14 +2,14 @@
 #include <raymath.h>
 #include <iostream>
 #include "player.h"
-#include "playerCamera.h"
+#include "mainCamera.h"
 
 
 
 int main()
 {
     InitWindow(800,600, "Skyrunner");
-    SetTargetFPS(30);
+    SetTargetFPS(60);
 
     Rectangle envRecs[] =
     {
@@ -22,7 +22,7 @@ int main()
     int envRecsLength = sizeof(envRecs)/sizeof(envRecs[0]);
 
     player player;
-    playerCamera camera(&player.position);
+    mainCamera camera(&player.position);
 
     while (WindowShouldClose() == false)
     {

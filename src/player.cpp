@@ -37,11 +37,11 @@ void player::draw()
     {
         if(velocity.x > 0.1)
         {
-            velocity.x -= horizontalDampening;
+            velocity.x -= horizontalDampening * GetFrameTime();
         }
         else if(velocity.x < -0.1)
         {
-            velocity.x += horizontalDampening;
+            velocity.x += horizontalDampening * GetFrameTime();
         }
         else
         {
@@ -89,7 +89,7 @@ void player::collisionCheck(Rectangle * envRecs, int envRecsLenght)
         groundCheck = false;
         if(velocity.y <= maxVelocity.y)
         {
-            velocity.y += gravity;
+            velocity.y += gravity * GetFrameTime();
         }
         gravity = defaultGravity;
     }
@@ -103,7 +103,6 @@ void player::playerAnimator()
 {
     float spriteWidth = (float)playerSprites[0].width/8;
     Rectangle frameRec = { 0.0f, 0.0f, spriteWidth, 32.0f};
-    std::cout << playerSprites[0].format;
 
 
     frameTime +=  17 * GetFrameTime();
