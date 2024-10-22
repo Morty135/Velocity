@@ -8,7 +8,12 @@ class playerAnimation
 {
     private:
 
+    float playerSize = 4;
+
+    int frameOffset = 0;
     int pathsLenght = 2;
+    float frameDelay = 0.5f;
+    float frameTime;
 
     Texture2D animations[2];
 
@@ -18,16 +23,17 @@ class playerAnimation
     };
 
     Vector2* playerVelocity;
-
-    public:
-
-    playerAnimation(Vector2* playerVelocity);
-    ~playerAnimation();
-
-    void animate();
+    Vector2* playerPosition;
 
     void idleAnimation();
     void runAnimation();
+    
+    public:
+
+    playerAnimation(Vector2* playerVelocity, Vector2* playerPosition);
+    ~playerAnimation();
+
+    void animate();
 };
 
 

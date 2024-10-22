@@ -7,13 +7,15 @@
 
 #include <iostream>
 
+#include "playerAnimation.h"
+
 class player
 {
 private:
     float gravity = 100.5f;
     float defaultGravity;
 
-    void playerAnimator();
+    playerAnimation anim;
 
 public:
     Texture2D playerSprites[2];
@@ -29,7 +31,6 @@ public:
     bool groundCheck = true;
 
     Rectangle collisonRec = {position.x-32, position.y - 64 ,64,128};
-
 
     player();
     ~player();
