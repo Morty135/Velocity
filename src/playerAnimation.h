@@ -12,7 +12,7 @@ class playerAnimation
 
     int frameOffset = 0;
     int pathsLenght = 2;
-    float frameDelay = 0.5f;
+    float frameDelay = 0.07f;
     float frameTime;
 
     Texture2D animations[2];

@@ -28,13 +28,13 @@ playerAnimation::~playerAnimation()
 
 void playerAnimation::animate()
 {
-    if(playerVelocity->x < -0.05f || playerVelocity->x > 0.05f)
+    if(playerVelocity->x < -0.15f || playerVelocity->x > 0.15f)
     {
-        void runAnimation();
+        runAnimation();
     }
-    if(playerVelocity->x <= 0.05f && playerVelocity->x >= -0.05f)
+    if(playerVelocity->x <= 0.15f && playerVelocity->x >= -0.15f)
     {
-        void idleAnimation();
+        idleAnimation();
     }
 }
 
@@ -42,7 +42,11 @@ void playerAnimation::animate()
 
 void playerAnimation::idleAnimation()
 {
-    float frameWidth = (float)animations[0].width/8;
+    if(frameOffset > 8)
+    {
+        frameOffset = 0;
+    }
+    float frameWidth = (float)animations[1].width/8;
     Rectangle frameRec = { 0.0f, 0.0f, frameWidth, (float)animations[0].height};
 
 
@@ -58,13 +62,17 @@ void playerAnimation::idleAnimation()
     Rectangle destRec = { playerPosition->x, playerPosition->y, frameRec.width * playerSize, frameRec.height * playerSize };
 
     Vector2 origin = {32.0f, 64.0f };
-    DrawTexturePro(animations[0], frameRec, destRec, origin, 0.0f, WHITE);
+    DrawTexturePro(animations[1], frameRec, destRec, origin, 0.0f, WHITE);
 }
 
 
 
 void playerAnimation::runAnimation()
 {
+    if(frameOffset > 8)
+    {
+        frameOffset = 0;
+    }
     float frameWidth = (float)animations[0].width/8;
     Rectangle frameRec = { 0.0f, 0.0f, frameWidth, (float)animations[0].height};
 
