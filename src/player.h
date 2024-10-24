@@ -18,7 +18,6 @@ private:
     playerAnimation anim;
 
 public:
-    Texture2D playerSprites[2];
     float playerSize = 4.0;
 
     Vector2 position = {0,0};

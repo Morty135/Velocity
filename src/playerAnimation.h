@@ -12,21 +12,25 @@ class playerAnimation
 
     int frameOffset = 0;
     int pathsLenght = 2;
-    float frameDelay = 0.07f;
+    float frameDelay = 0.1f;
     float frameTime;
+
+    //in pixels
+    float frameWidth = 16;
 
     Texture2D animations[2];
 
     const char* animationPaths[2] = {
-        "resources/player/run.png",
+        "resources/player/runDebug.png",
         "resources/player/idle.png"
     };
 
     Vector2* playerVelocity;
     Vector2* playerPosition;
 
-    void idleAnimation();
-    void runAnimation();
+    Rectangle frameRec = { 0.0f , 0.0f, frameWidth, 32.0f};
+
+    void animation(int animationIndex);
     
     public:
 

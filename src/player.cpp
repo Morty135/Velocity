@@ -11,7 +11,6 @@ player::player(): anim(&velocity, &position)
 
 player::~player()
 {
-    UnloadTexture(playerSprites[0]);
 }
 
 
