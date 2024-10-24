@@ -13,7 +13,7 @@ class playerAnimation
     int frameOffset = 0;
     int pathsLenght = 2;
     float frameDelay = 0.1f;
-    float frameTime;
+    double frameTime;
 
     //in pixels
     float frameWidth = 16;

@@ -35,7 +35,6 @@ void playerAnimation::animate()
     {
         frameRec.width = -frameWidth;
     }
-
     if(playerVelocity->x < -0.15f || playerVelocity->x > 0.15f)
     {
         animation(0);
