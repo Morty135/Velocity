@@ -43,7 +43,7 @@ void player::draw()
         }
         else
         {
-            velocity.x = velocity.x;
+            velocity.x = 0;
         }
     }
     

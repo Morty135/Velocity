@@ -18,8 +18,6 @@ private:
     playerAnimation anim;
 
 public:
-    float playerSize = 4.0;
-
     Vector2 position = {0,0};
     Vector2 velocity = {0,0};
     Vector2 maxVelocity = {12, 100};

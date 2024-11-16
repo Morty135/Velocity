@@ -3,3 +3,7 @@ rewrite the player files
 dirrection glitch: when dirrecton change occurs in sequence the both interpolations stay active and the position oscilates
 
 collision glitch: the coliders dont react instantly cause unknown
+
+rewrite the player controller to a separate file using
+
+Maybe rename the project to Velocity

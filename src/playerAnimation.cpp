@@ -27,7 +27,7 @@ playerAnimation::~playerAnimation()
 
 void playerAnimation::animate()
 {
-    if(playerVelocity->x > 0)
+    if(playerVelocity->x > 0.1)
     {
         frameRec.width = frameWidth;
     }
