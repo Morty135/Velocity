@@ -12,7 +12,6 @@ class playerAnimation
 
     int frameOffset = 0;
     int pathsLenght = 2;
-    float frameDelay = 0.1f;
     double frameTime;
 
     //in pixels
@@ -30,7 +29,7 @@ class playerAnimation
 
     Rectangle frameRec = { 0.0f , 0.0f, frameWidth, 32.0f};
 
-    void animation(int animationIndex);
+    void animation(int animationIndex, float frameDelay = 0.1f);
     
     public:
 

@@ -47,7 +47,7 @@ void playerAnimation::animate()
 
 
 
-void playerAnimation::animation(int animationIndex)
+void playerAnimation::animation(int animationIndex, float frameDelay)
 {
     frameRec.x = frameWidth * frameOffset;
 

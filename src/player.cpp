@@ -16,36 +16,30 @@ player::~player()
 
 void player::draw()
 {
-    if(IsKeyDown(KEY_A))
+    float deltaTime = GetFrameTime();
+
+    if (IsKeyDown(KEY_A))
     {
-        if(velocity.x >= -maxVelocity.x)
-        {
-            velocity.x -= movementSpeed * GetFrameTime();
-        }
+        velocity.x -= movementSpeed * deltaTime;
     }
-    if(IsKeyDown(KEY_D))
+    else if (IsKeyDown(KEY_D))
     {
-        if(velocity.x >= maxVelocity.x)
-        {
-            velocity.x -= movementSpeed * GetFrameTime();
-        }
-        velocity.x += movementSpeed * GetFrameTime();
+        velocity.x += movementSpeed * deltaTime;
     }
     else
     {
-        if(velocity.x > 0.1)
+        if (velocity.x > 0)
         {
-            velocity.x -= horizontalDampening * GetFrameTime();
+            velocity.x = std::max(0.0f, velocity.x - horizontalDampening * deltaTime);
         }
-        else if(velocity.x < -0.1)
+        else if (velocity.x < 0)
         {
-            velocity.x += horizontalDampening * GetFrameTime();
-        }
-        else
-        {
-            velocity.x = 0;
+            velocity.x = std::min(0.0f, velocity.x + horizontalDampening * deltaTime);
         }
     }
+
+    if (velocity.x >  maxVelocity.x) velocity.x =  maxVelocity.x;
+    if (velocity.x < -maxVelocity.x) velocity.x = -maxVelocity.x;
     
 
 
@@ -59,7 +53,7 @@ void player::draw()
 
     collisonRec = {position.x-32, position.y - 64 ,64,128};
 
-    DrawRectangleRec(collisonRec, {0,0,0,100});
+    //DrawRectangleRec(collisonRec, {0,0,0,100});
     anim.animate();
 }
 
