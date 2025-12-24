@@ -52,7 +52,7 @@ public:
 
     bool groundCheck = true;
 
-    Rectangle collisionRec = {position.x-32, position.y - 64 ,64,128};
+    Rectangle collisionRec = {position.x, position.y, 48, 128};
 
     player(Rectangle* collisionRecs, int envRecsLength);
     ~player();

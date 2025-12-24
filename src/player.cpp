@@ -60,7 +60,8 @@ void player::draw()
     }
 
     position.x += velocity.x;
-    collisionRec = { position.x - 32, position.y - 64, 64, 128 };
+    collisionRec.x = position.x - collisionRec.width * 0.5f;
+    collisionRec.y = position.y - collisionRec.height * 0.5f;
     horizontalCollision();
 
     if(velocity.y <= maxVelocity.y)
@@ -69,10 +70,9 @@ void player::draw()
     }
 
     position.y += velocity.y;
-    collisionRec = { position.x - 32, position.y - 64, 64, 128 };
+    collisionRec.x = position.x - collisionRec.width * 0.5f;
+    collisionRec.y = position.y - collisionRec.height * 0.5f;
     verticalCollision();
-
-    collisionRec = {position.x-32, position.y - 64 ,64,128};
 
     DrawRectangleRec(collisionRec, {0,0,0,100});
     animator();
