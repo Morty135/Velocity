@@ -21,7 +21,7 @@ int main()
 
     int envRecsLength = sizeof(envRecs)/sizeof(envRecs[0]);
 
-    player player;
+    player player(envRecs, envRecsLength);
     mainCamera camera(&player.position);
 
     while (WindowShouldClose() == false)
@@ -36,7 +36,6 @@ int main()
             DrawRectangleRec(envRecs[i],BLACK);
         }
 
-        player.collisionCheck(envRecs, envRecsLength);
         player.draw();
 
         EndMode2D();

@@ -7,16 +7,41 @@
 
 #include <iostream>
 
-#include "playerAnimation.h"
-
 class player
 {
 private:
+    Rectangle* collisionRecs = nullptr;
+    int collisionRecsLenght = 0;
+
     float gravity = 100.5f;
     float defaultGravity;
 
-    playerAnimation anim;
+    void animator();
 
+    void animation(int animationIndex, float frameDelay = 0.1f);
+
+    float playerSize = 4;
+
+    int frameOffset = 0;
+    int pathsLenght = 2;
+    double frameTime;
+
+    //in pixels
+    float frameWidth = 16;
+
+    int animationsLenght = 2;
+
+    Texture2D animations[2];
+
+    const char* animationPaths[2] = {
+        "resources/player/runDebug.png",
+        "resources/player/idle.png"
+    };
+
+    Rectangle frameRec = { 0.0f , 0.0f, frameWidth, 32.0f};
+
+    void horizontalCollision();
+    void verticalCollision();
 public:
     Vector2 position = {0,0};
     Vector2 velocity = {0,0};
@@ -27,14 +52,12 @@ public:
 
     bool groundCheck = true;
 
-    Rectangle collisonRec = {position.x-32, position.y - 64 ,64,128};
+    Rectangle collisionRec = {position.x-32, position.y - 64 ,64,128};
 
-    player();
+    player(Rectangle* collisionRecs, int envRecsLength);
     ~player();
 
     void draw();
-
-    void collisionCheck(Rectangle *envItems, int envRecsLenght);
 };
 
 #endif

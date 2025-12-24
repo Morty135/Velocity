@@ -2,15 +2,26 @@
 
 
 
-player::player(): anim(&velocity, &position)
+player::player(Rectangle* collisionRecs, int envRecsLength)
 {
     defaultGravity = gravity;
+    this->collisionRecs = collisionRecs;
+    this->collisionRecsLenght = envRecsLength;
+
+    for (size_t i = 0; i < pathsLenght; i++)
+    {
+        animations[i] = LoadTexture(animationPaths[i]);
+    }
 }
 
 
 
 player::~player()
 {
+    for (size_t i = 0; i < pathsLenght; i++)
+    {
+        UnloadTexture(animations[i]);
+    }
 }
 
 
@@ -49,40 +60,125 @@ void player::draw()
     }
 
     position.x += velocity.x;
+    collisionRec = { position.x - 32, position.y - 64, 64, 128 };
+    horizontalCollision();
+
+    if(velocity.y <= maxVelocity.y)
+    {
+        velocity.y += gravity * GetFrameTime();
+    }
+
     position.y += velocity.y;
+    collisionRec = { position.x - 32, position.y - 64, 64, 128 };
+    verticalCollision();
 
-    collisonRec = {position.x-32, position.y - 64 ,64,128};
+    collisionRec = {position.x-32, position.y - 64 ,64,128};
 
-    //DrawRectangleRec(collisonRec, {0,0,0,100});
-    anim.animate();
+    DrawRectangleRec(collisionRec, {0,0,0,100});
+    animator();
 }
 
 
 
-void player::collisionCheck(Rectangle * envRecs, int envRecsLenght)
+void player::animation(int animationIndex, float frameDelay)
 {
-    int colRecs = 0;
-    for (int i = 0; i < envRecsLenght; i++)
+    frameRec.x = frameWidth * frameOffset;
+
+    Rectangle destRec = { position.x, position.y, frameRec.width * playerSize, frameRec.height * playerSize };
+
+    Vector2 origin = {32.0f, 64.0f };
+    DrawTexturePro(animations[animationIndex], frameRec, destRec, origin, 0.0f, WHITE);
+
+    frameTime += GetFrameTime();
+
+    if(frameTime >= frameDelay)
     {
-        Rectangle envRec = envRecs[i];
-        if (CheckCollisionRecs(collisonRec, envRec))
-        {
-            colRecs++;
-        }
+        frameTime = 0;
+        frameOffset++;
     }
-    if(colRecs > 0)
+
+    if(frameOffset >= animations[animationIndex].width / frameWidth)
     {
-        groundCheck = true;
-        velocity.y = 0;
-        gravity = 0;
+        frameOffset = 0;
+    }
+}
+
+
+
+void player::animator()
+{
+    if(velocity.x > 0.1)
+    {
+        frameRec.width = frameWidth;
     }
     else
     {
-        groundCheck = false;
-        if(velocity.y <= maxVelocity.y)
-        {
-            velocity.y += gravity * GetFrameTime();
-        }
-        gravity = defaultGravity;
+        frameRec.width = -frameWidth;
     }
+    if(velocity.x < -0.15f || velocity.x > 0.15f)
+    {
+        animation(0);
+    }
+    if(velocity.x <= 0.15f && velocity.x >= -0.15f)
+    {
+        animation(1);
+    }
+}
+
+
+
+void player::horizontalCollision()
+{
+    Rectangle rec = collisionRec;
+
+    for (int i = 0; i < collisionRecsLenght; i++)
+    {
+        if (CheckCollisionRecs(rec, collisionRecs[i]))
+        {
+            if (velocity.x > 0)
+            {
+                // moving right → hit left side of wall
+                position.x = collisionRecs[i].x - rec.width / 2;
+            }
+            else if (velocity.x < 0)
+            {
+                // moving left → hit right side of wall
+                position.x = collisionRecs[i].x + collisionRecs[i].width + rec.width / 2;
+            }
+
+            velocity.x = 0;
+            break;
+        }
+    }
+}
+
+
+
+void player::verticalCollision()
+{
+    Rectangle rec = collisionRec;
+    groundCheck = false;
+
+    for (int i = 0; i < collisionRecsLenght; i++)
+    {
+        if (CheckCollisionRecs(rec, collisionRecs[i]))
+        {
+            if (velocity.y > 0)
+            {
+                // falling → ground
+                position.y = collisionRecs[i].y - rec.height / 2;
+                groundCheck = true;
+            }
+            else if (velocity.y < 0)
+            {
+                // jumping → ceiling
+                position.y = collisionRecs[i].y + collisionRecs[i].height + rec.height / 2;
+            }
+
+            velocity.y = 0;
+            break;
+        }
+    }
+
+    gravity = groundCheck ? 0 : defaultGravity;
 }
