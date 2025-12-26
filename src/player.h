@@ -15,7 +15,7 @@ private:
 
     Vector2 velocity = {0,0};
     Vector2 maxVelocity = {0.0f, 0.0f};
-    float wallJumpCooldown = 0.2f;
+    float wallJumpCooldown = 0.4f;
 
     float wallJumpTimer = 0.0f;
     float maxHorizontalVelocitySlow = 8.0f;
