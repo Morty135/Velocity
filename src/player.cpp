@@ -64,16 +64,18 @@ void player::draw()
 
     if(wallCheckLeft == true && inputManager.getAxisJump() && inputManager.getAxisHorizontal() < 0 && wallJumpTimer >= wallJumpCooldown)
     {
+        velocity.y = 0.0f;
         wallJumpTimer = 0.0f;
-        velocity.y += -jumpForce * 2.0f;
-        velocity.x += jumpForce;
+        velocity.y += -jumpForce * 1.3f;
+        velocity.x += jumpForce * 0.7f;
     }
 
     if(WallCheckRight == true && inputManager.getAxisJump() && inputManager.getAxisHorizontal() > 0 && wallJumpTimer >= wallJumpCooldown)
     {
+        velocity.y = 0.0f;
         wallJumpTimer = 0.0f;
-        velocity.y += -jumpForce * 2.0f;
-        velocity.x += -jumpForce;
+        velocity.y += -jumpForce * 1.3f;
+        velocity.x += -jumpForce * 0.7f;
     }
 
     wallJumpTimer += deltaTime;

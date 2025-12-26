@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5.0)
-project(Skyrunner VERSION 0.1.0 LANGUAGES C CXX)
+project(Velocity VERSION 0.1.0 LANGUAGES C CXX)
 
 #need to use SDL otherwise controller doesnt work on linux
 set(PLATFORM SDL CACHE STRING "" FORCE)
