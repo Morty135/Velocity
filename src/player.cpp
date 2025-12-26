@@ -61,6 +61,38 @@ void player::draw()
     {
         maxVelocity.x = maxHorizontalVelocitySlow;
     }
+
+    if(wallCheckLeft == true && inputManager.getAxisJump() && inputManager.getAxisHorizontal() < 0 && wallJumpTimer >= wallJumpCooldown)
+    {
+        wallJumpTimer = 0.0f;
+        velocity.y += -jumpForce;
+        velocity.x += jumpForce;
+    }
+
+    if(WallCheckRight == true && inputManager.getAxisJump() && inputManager.getAxisHorizontal() > 0 && wallJumpTimer >= wallJumpCooldown)
+    {
+        wallJumpTimer = 0.0f;
+        velocity.y += -jumpForce;
+        velocity.x += -jumpForce;
+    }
+
+    wallJumpTimer += deltaTime;
+
+    if(inputManager.getAxisHorizontal() != 0)
+    {
+        if((wallCheckLeft == true && inputManager.getAxisHorizontal() < 0) || (WallCheckRight == true && inputManager.getAxisHorizontal() > 0))
+        {
+            maxVelocity.y = maxVelocityYWall;
+        }
+        else
+        {
+            maxVelocity.y = maxVelocityYFall;
+        }
+    }
+    else
+    {
+        maxVelocity.y = maxVelocityYFall;
+    }
     
 
 
@@ -138,6 +170,8 @@ void player::animator()
 void player::horizontalCollision()
 {
     Rectangle rec = getCollisionRec();
+    wallCheckLeft = false;
+    WallCheckRight = false;
 
     for (int i = 0; i < collisionRecsLenght; i++)
     {
@@ -145,13 +179,13 @@ void player::horizontalCollision()
         {
             if (velocity.x > 0)
             {
-                position.x +=
-                    (collisionRecs[i].x - (rec.x + rec.width));
+                position.x += (collisionRecs[i].x - (rec.x + rec.width));
+                WallCheckRight = true;
             }
             else if (velocity.x < 0)
             {
-                position.x +=
-                    ((collisionRecs[i].x + collisionRecs[i].width) - rec.x);
+                position.x += ((collisionRecs[i].x + collisionRecs[i].width) - rec.x);
+                wallCheckLeft = true;
             }
 
             velocity.x = 0;

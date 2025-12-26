@@ -14,11 +14,18 @@ class player
 private:
 
     Vector2 velocity = {0,0};
-    Vector2 maxVelocity = {12, 100};
+    Vector2 maxVelocity = {0.0f, 0.0f};
+    float wallJumpCooldown = 0.2f;
+
+    float wallJumpTimer = 0.0f;
+    float maxHorizontalVelocitySlow = 8.0f;
+    float maxHorizontalVelocityFast = 12.0f;
+    float maxVelocityYFall = 70.0f;
+    float maxVelocityYWall = 5.0f;
     float movementSpeed = 80.0f;
-    float jumpForce = 20;
+    float jumpForce = 15;
     float horizontalDampening = 25;
-    float defaultGravity = 100.5f;
+    float defaultGravity = 70.5f;
 
     // animation
     void animator();
@@ -47,9 +54,6 @@ private:
 
     input inputManager;
 
-    float maxHorizontalVelocitySlow = 8.0f;
-    float maxHorizontalVelocityFast = 12.0f;
-
     // collider
     Vector2 colliderSize = {8, 24};
     Vector2 colliderOffset = {0, 4};
@@ -65,6 +69,8 @@ private:
 
     //misc
     bool groundCheck = true;
+    bool wallCheckLeft = false;
+    bool WallCheckRight = false;
     float gravity = 0.0f;
 public:
 
