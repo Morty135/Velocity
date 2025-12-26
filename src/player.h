@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include "input.h"
+
 class player
 {
 private:
@@ -42,6 +44,11 @@ private:
 
     void horizontalCollision();
     void verticalCollision();
+
+    input inputManager;
+
+    float maxHorizontalVelocitySlow = 8.0f;
+    float maxHorizontalVelocityFast = 12.0f;
 public:
     Vector2 position = {0,0};
     Vector2 velocity = {0,0};

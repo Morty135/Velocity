@@ -26,7 +26,6 @@ int main()
 
     while (WindowShouldClose() == false)
     {
-
         BeginDrawing();
         ClearBackground(Color{139, 109, 156, 1});
         BeginMode2D(camera.update());

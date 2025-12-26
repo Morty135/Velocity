@@ -29,11 +29,11 @@ void player::draw()
 {
     float deltaTime = GetFrameTime();
 
-    if (IsKeyDown(KEY_A))
+    if (inputManager.getAxisHorizontal() < 0)
     {
         velocity.x -= movementSpeed * deltaTime;
     }
-    else if (IsKeyDown(KEY_D))
+    else if (inputManager.getAxisHorizontal() > 0)
     {
         velocity.x += movementSpeed * deltaTime;
     }
@@ -54,7 +54,18 @@ void player::draw()
     
 
 
-    if(IsKeyDown(KEY_SPACE) && groundCheck == true)
+    if(inputManager.getAxisHorizontal() > 0.6f || inputManager.getAxisHorizontal() < -0.6f)
+    {
+        maxVelocity.x = maxHorizontalVelocityFast;
+    }
+    else
+    {
+        maxVelocity.x = maxHorizontalVelocitySlow;
+    }
+    
+
+
+    if(inputManager.getAxisJump() && groundCheck == true)
     {
         velocity.y += -jumpForce;
     }

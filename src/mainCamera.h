@@ -6,10 +6,14 @@
 #include <raymath.h>
 #include <iostream>
 
+#include "input.h"
+
 class mainCamera
 {
 private:
     Vector2* targetPos;
+
+    input inputManager;
 
 public:
     Camera2D camera = { 0 };

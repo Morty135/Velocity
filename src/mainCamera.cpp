@@ -18,12 +18,12 @@ mainCamera::~mainCamera()
 
 Camera2D mainCamera::update()
 {
-    if(IsKeyDown(KEY_A))
+    if(inputManager.getAxisHorizontal() < 0)
     {
         currentCameraPos = {Lerp(currentCameraPos.x,targetPos->x - 300, 0.06f), Lerp(currentCameraPos.y,targetPos->y -50, 0.5f)};
         currentCameraZoom = Lerp(currentCameraZoom,0.8f, 0.04f);
     }
-    else if(IsKeyDown(KEY_D))
+    else if(inputManager.getAxisHorizontal() > 0)
     {
         currentCameraPos = {Lerp(currentCameraPos.x,targetPos->x + 300, 0.06f), Lerp(currentCameraPos.y,targetPos->y -50, 0.5f)};
         currentCameraZoom = Lerp(currentCameraZoom,0.8f, 0.04f);
