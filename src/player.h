@@ -59,6 +59,13 @@ private:
     Vector2 colliderOffset = {0, 4};
     float colliderScale = 4.0f;
 
+    // the scale is the same for all
+    Vector2 colliderSizeUpper = {8, 12};
+    Vector2 colliderOffsetUpper = {0, -2};
+
+    Vector2 colliderSizeLower = {8, 12};
+    Vector2 colliderOffsetLower = {0, 10};
+
     Rectangle getCollisionRec();
 
     void horizontalCollision();

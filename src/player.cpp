@@ -95,6 +95,8 @@ void player::draw()
     {
         maxVelocity.y = maxVelocityYFall;
     }
+
+    std::cout << groundCheck << std::endl;
     
 
 
@@ -198,6 +200,7 @@ void player::horizontalCollision()
 
 
 
+// this thing is broken at so many levels Me need fix
 void player::verticalCollision()
 {
     Rectangle rec = getCollisionRec();
@@ -205,23 +208,25 @@ void player::verticalCollision()
 
     for (int i = 0; i < collisionRecsLenght; i++)
     {
-        if (CheckCollisionRecs(rec, collisionRecs[i]))
-        {
-            if (velocity.y > 0)
-            {
-                position.y +=
-                    (collisionRecs[i].y - (rec.y + rec.height));
-                groundCheck = true;
-            }
-            else if (velocity.y < 0)
-            {
-                position.y +=
-                    ((collisionRecs[i].y + collisionRecs[i].height) - rec.y);
-            }
+        if (!CheckCollisionRecs(rec, collisionRecs[i]))
+            continue;
 
-            velocity.y = 0;
-            break;
+        float overlapBottom = (rec.y + rec.height) - collisionRecs[i].y;
+
+        float overlapTop = (collisionRecs[i].y + collisionRecs[i].height) - rec.y;
+
+        if (overlapBottom > 0 && overlapBottom < overlapTop + 0.5f)
+        {
+            position.y -= overlapBottom;
+            groundCheck = true;
         }
+        else if (overlapTop > 0)
+        {
+            position.y += overlapTop;
+        }
+
+        velocity.y = 0;
+        break;
     }
 
     gravity = groundCheck ? 0.0f : defaultGravity;
@@ -233,10 +238,27 @@ Rectangle player::getCollisionRec()
 {
     float w = colliderSize.x * colliderScale;
     float h = colliderSize.y * colliderScale;
+    float offsetX = colliderOffset.x;
+    float offsetY = colliderOffset.y;
+
+    if(inputManager.getAxisVertical() > 0 && groundCheck == false)
+    {
+        w = colliderSizeUpper.x * colliderScale;
+        h = colliderSizeUpper.y * colliderScale;
+        offsetX = colliderOffsetUpper.x;
+        offsetY = colliderOffsetUpper.y;
+    }
+    if(inputManager.getAxisVertical() < 0)
+    {
+        w = colliderSizeLower.x * colliderScale;
+        h = colliderSizeLower.y * colliderScale;
+        offsetX = colliderOffsetLower.x;
+        offsetY = colliderOffsetLower.y;
+    }
 
     return {
-        position.x - w * 0.5f + colliderOffset.x * colliderScale,
-        position.y - h * 0.5f + colliderOffset.y * colliderScale,
+        position.x - w * 0.5f + offsetX * colliderScale,
+        position.y - h * 0.5f + offsetY * colliderScale,
         w,
         h
     };

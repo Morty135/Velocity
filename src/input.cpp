@@ -58,11 +58,15 @@ float input::getAxisVertical()
 
     if (IsKeyDown(KEY_W))
     {
-        vertical -= 1.0f;
+        vertical += 1.0f;
     }
     if (IsKeyDown(KEY_S))
     {
-        vertical += 1.0f;
+        vertical -= 1.0f;
+    }
+    if(GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_X) > 0.1f || GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_Y) < -0.1f)
+    {
+        vertical = GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_Y);
     }
 
     return vertical;
