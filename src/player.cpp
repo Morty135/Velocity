@@ -2,11 +2,10 @@
 
 
 
-player::player(Rectangle* collisionRecs, int envRecsLength)
+player::player(Rectangle* collisionRecs, int collisionRecsLength)
 {
-    defaultGravity = gravity;
     this->collisionRecs = collisionRecs;
-    this->collisionRecsLenght = envRecsLength;
+    this->collisionRecsLenght = collisionRecsLength;
 
     for (size_t i = 0; i < pathsLenght; i++)
     {
@@ -71,8 +70,6 @@ void player::draw()
     }
 
     position.x += velocity.x;
-    collisionRec.x = position.x - collisionRec.width * 0.5f;
-    collisionRec.y = position.y - collisionRec.height * 0.5f;
     horizontalCollision();
 
     if(velocity.y <= maxVelocity.y)
@@ -81,11 +78,11 @@ void player::draw()
     }
 
     position.y += velocity.y;
-    collisionRec.x = position.x - collisionRec.width * 0.5f;
-    collisionRec.y = position.y - collisionRec.height * 0.5f;
     verticalCollision();
 
-    DrawRectangleRec(collisionRec, {0,0,0,100});
+    DrawRectangleLinesEx(getCollisionRec(), 1, RED);
+    DrawCircleV(position, 3, BLUE);
+
     animator();
 }
 
@@ -140,7 +137,7 @@ void player::animator()
 
 void player::horizontalCollision()
 {
-    Rectangle rec = collisionRec;
+    Rectangle rec = getCollisionRec();
 
     for (int i = 0; i < collisionRecsLenght; i++)
     {
@@ -148,13 +145,13 @@ void player::horizontalCollision()
         {
             if (velocity.x > 0)
             {
-                // moving right → hit left side of wall
-                position.x = collisionRecs[i].x - rec.width / 2;
+                position.x +=
+                    (collisionRecs[i].x - (rec.x + rec.width));
             }
             else if (velocity.x < 0)
             {
-                // moving left → hit right side of wall
-                position.x = collisionRecs[i].x + collisionRecs[i].width + rec.width / 2;
+                position.x +=
+                    ((collisionRecs[i].x + collisionRecs[i].width) - rec.x);
             }
 
             velocity.x = 0;
@@ -167,7 +164,7 @@ void player::horizontalCollision()
 
 void player::verticalCollision()
 {
-    Rectangle rec = collisionRec;
+    Rectangle rec = getCollisionRec();
     groundCheck = false;
 
     for (int i = 0; i < collisionRecsLenght; i++)
@@ -176,14 +173,14 @@ void player::verticalCollision()
         {
             if (velocity.y > 0)
             {
-                // falling → ground
-                position.y = collisionRecs[i].y - rec.height / 2;
+                position.y +=
+                    (collisionRecs[i].y - (rec.y + rec.height));
                 groundCheck = true;
             }
             else if (velocity.y < 0)
             {
-                // jumping → ceiling
-                position.y = collisionRecs[i].y + collisionRecs[i].height + rec.height / 2;
+                position.y +=
+                    ((collisionRecs[i].y + collisionRecs[i].height) - rec.y);
             }
 
             velocity.y = 0;
@@ -191,5 +188,20 @@ void player::verticalCollision()
         }
     }
 
-    gravity = groundCheck ? 0 : defaultGravity;
+    gravity = groundCheck ? 0.0f : defaultGravity;
+}
+
+
+// collision rectangle
+Rectangle player::getCollisionRec()
+{
+    float w = colliderSize.x * colliderScale;
+    float h = colliderSize.y * colliderScale;
+
+    return {
+        position.x - w * 0.5f + colliderOffset.x * colliderScale,
+        position.y - h * 0.5f + colliderOffset.y * colliderScale,
+        w,
+        h
+    };
 }
