@@ -71,9 +71,6 @@ private:
     void horizontalCollision();
     void verticalCollision();
 
-    Rectangle* collisionRecs = nullptr;
-    int collisionRecsLenght = 0;
-
     //misc
     bool groundCheck = true;
     bool wallCheckLeft = false;
@@ -81,9 +78,12 @@ private:
     float gravity = 0.0f;
 public:
 
+    Rectangle* collisionRecs = nullptr;
+    int collisionRecsLenght = 0;
+
     Vector2 position = {0, 0};
 
-    player(Rectangle* collisionRecs, int collisionRecsLength);
+    player();
     ~player();
 
     void draw();

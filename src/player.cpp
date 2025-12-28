@@ -2,11 +2,8 @@
 
 
 
-player::player(Rectangle* collisionRecs, int collisionRecsLength)
+player::player()
 {
-    this->collisionRecs = collisionRecs;
-    this->collisionRecsLenght = collisionRecsLength;
-
     for (size_t i = 0; i < pathsLenght; i++)
     {
         animations[i] = LoadTexture(animationPaths[i]);

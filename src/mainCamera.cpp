@@ -2,10 +2,9 @@
 
 
 
-mainCamera::mainCamera(Vector2* targetPos)
+mainCamera::mainCamera()
 {
-    currentCameraPos = (Vector2){*targetPos};
-    this->targetPos = targetPos;
+    
 }
 
 

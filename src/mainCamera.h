@@ -11,16 +11,16 @@
 class mainCamera
 {
 private:
-    Vector2* targetPos;
-
     input inputManager;
 
-public:
     Camera2D camera = { 0 };
-    Vector2 currentCameraPos;
+    Vector2 currentCameraPos = {0.0f, 0.0f};
     float currentCameraZoom = 1.0;
 
-    mainCamera(Vector2* targetPos);
+public:
+    Vector2* targetPos = nullptr;
+
+    mainCamera();
     ~mainCamera();
 
     Camera2D update();
