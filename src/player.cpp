@@ -27,94 +27,48 @@ void player::draw()
 
     if (inputManager.getAxisHorizontal() < 0)
     {
-        velocity.x -= movementSpeed * deltaTime;
+        position.x -= speed * deltaTime;
     }
-    else if (inputManager.getAxisHorizontal() > 0)
+    if (inputManager.getAxisHorizontal() < 0)
     {
-        velocity.x += movementSpeed * deltaTime;
+        position.x += speed * deltaTime;
+    }
+    if (inputManager.getAxisJump() && canJump)
+    {
+        velocity = -jumpForce;
+        canJump = false;
+    }
+
+    bool hitObstacle = false;
+    for (int i = 0; i < collisionRecsLenght; i++)
+    {
+        Rectangle col = collisionRecs[i];
+        Vector2 *p = &(position);
+        if (col.x <= p->x &&
+            col.x + col.width >= p->x &&
+            col.y >= p->y &&
+            col.y <= p->y + speed * deltaTime)
+        {
+            hitObstacle = true;
+            speed = 0.0f;
+            p->y = col.y;
+            break;
+        }
+    }
+
+    if (!hitObstacle)
+    {
+        position.y += speed * deltaTime;
+        speed += gravity * deltaTime;
+        canJump = false;
     }
     else
     {
-        if (velocity.x > 0)
-        {
-            velocity.x = std::max(0.0f, velocity.x - horizontalDampening * deltaTime);
-        }
-        else if (velocity.x < 0)
-        {
-            velocity.x = std::min(0.0f, velocity.x + horizontalDampening * deltaTime);
-        }
-    }
-
-    if (velocity.x >  maxVelocity.x) velocity.x =  maxVelocity.x;
-    if (velocity.x < -maxVelocity.x) velocity.x = -maxVelocity.x;
-    
-
-
-    if(inputManager.getAxisHorizontal() > 0.6f || inputManager.getAxisHorizontal() < -0.6f)
-    {
-        maxVelocity.x = maxHorizontalVelocityFast;
-    }
-    else
-    {
-        maxVelocity.x = maxHorizontalVelocitySlow;
-    }
-
-    if(wallCheckLeft == true && inputManager.getAxisJump() && inputManager.getAxisHorizontal() < 0 && wallJumpTimer >= wallJumpCooldown)
-    {
-        velocity.y = 0.0f;
-        wallJumpTimer = 0.0f;
-        velocity.y += -jumpForce * 1.3f;
-        velocity.x += jumpForce * 0.7f;
-    }
-
-    if(WallCheckRight == true && inputManager.getAxisJump() && inputManager.getAxisHorizontal() > 0 && wallJumpTimer >= wallJumpCooldown)
-    {
-        velocity.y = 0.0f;
-        wallJumpTimer = 0.0f;
-        velocity.y += -jumpForce * 1.3f;
-        velocity.x += -jumpForce * 0.7f;
-    }
-
-    wallJumpTimer += deltaTime;
-
-    if(inputManager.getAxisHorizontal() != 0)
-    {
-        if((wallCheckLeft == true && inputManager.getAxisHorizontal() < 0) || (WallCheckRight == true && inputManager.getAxisHorizontal() > 0))
-        {
-            maxVelocity.y = maxVelocityYWall;
-        }
-        else
-        {
-            maxVelocity.y = maxVelocityYFall;
-        }
-    }
-    else
-    {
-        maxVelocity.y = maxVelocityYFall;
-    }
-
-    std::cout << groundCheck << std::endl;
-    
-
-
-    if(inputManager.getAxisJump() && groundCheck == true)
-    {
-        velocity.y += -jumpForce;
-    }
-
-    position.x += velocity.x;
-    horizontalCollision();
-
-    if(velocity.y <= maxVelocity.y)
-    {
-        velocity.y += gravity * GetFrameTime();
-    }
-
-    position.y += velocity.y;
-    verticalCollision();
+        canJump = true;
+    } 
 
     DrawRectangleLinesEx(getCollisionRec(), 1, RED);
-    DrawCircleV(position, 3, BLUE);
+    DrawCircleV(position, 10, BLUE);
 
     animator();
 }
@@ -148,7 +102,7 @@ void player::animation(int animationIndex, float frameDelay)
 
 void player::animator()
 {
-    if(velocity.x > 0.1)
+    if(inputManager.getAxisHorizontal() > 0)
     {
         frameRec.width = frameWidth;
     }
@@ -156,78 +110,16 @@ void player::animator()
     {
         frameRec.width = -frameWidth;
     }
-    if(velocity.x < -0.15f || velocity.x > 0.15f)
-    {
-        animation(0);
-    }
-    if(velocity.x <= 0.15f && velocity.x >= -0.15f)
+    if(inputManager.getAxisHorizontal() == 0)
     {
         animation(1);
     }
-}
-
-
-
-void player::horizontalCollision()
-{
-    Rectangle rec = getCollisionRec();
-    wallCheckLeft = false;
-    WallCheckRight = false;
-
-    for (int i = 0; i < collisionRecsLenght; i++)
+    if(inputManager.getAxisHorizontal() > 0 || inputManager.getAxisHorizontal() < 0)
     {
-        if (CheckCollisionRecs(rec, collisionRecs[i]))
-        {
-            if (velocity.x > 0)
-            {
-                position.x += (collisionRecs[i].x - (rec.x + rec.width));
-                WallCheckRight = true;
-            }
-            else if (velocity.x < 0)
-            {
-                position.x += ((collisionRecs[i].x + collisionRecs[i].width) - rec.x);
-                wallCheckLeft = true;
-            }
-
-            velocity.x = 0;
-            break;
-        }
+        animation(0);
     }
 }
 
-
-
-// this thing is broken at so many levels Me need fix
-void player::verticalCollision()
-{
-    Rectangle rec = getCollisionRec();
-    groundCheck = false;
-
-    for (int i = 0; i < collisionRecsLenght; i++)
-    {
-        if (!CheckCollisionRecs(rec, collisionRecs[i]))
-            continue;
-
-        float overlapBottom = (rec.y + rec.height) - collisionRecs[i].y;
-
-        float overlapTop = (collisionRecs[i].y + collisionRecs[i].height) - rec.y;
-
-        if (overlapBottom > 0 && overlapBottom < overlapTop + 0.5f)
-        {
-            position.y -= overlapBottom;
-            groundCheck = true;
-        }
-        else if (overlapTop > 0)
-        {
-            position.y += overlapTop;
-        }
-
-        velocity.y = 0;
-        break;
-    }
-
-    gravity = groundCheck ? 0.0f : defaultGravity;
-}
 
 
 // collision rectangle
@@ -238,7 +130,7 @@ Rectangle player::getCollisionRec()
     float offsetX = colliderOffset.x;
     float offsetY = colliderOffset.y;
 
-    if(inputManager.getAxisVertical() > 0 && groundCheck == false)
+    if(inputManager.getAxisVertical() > 0 && canJump == false)
     {
         w = colliderSizeUpper.x * colliderScale;
         h = colliderSizeUpper.y * colliderScale;

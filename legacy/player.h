@@ -12,6 +12,21 @@
 class player
 {
 private:
+
+    Vector2 velocity = {0,0};
+    Vector2 maxVelocity = {0.0f, 0.0f};
+    float wallJumpCooldown = 0.4f;
+
+    float wallJumpTimer = 0.0f;
+    float maxHorizontalVelocitySlow = 8.0f;
+    float maxHorizontalVelocityFast = 12.0f;
+    float maxVelocityYFall = 70.0f;
+    float maxVelocityYWall = 5.0f;
+    float movementSpeed = 80.0f;
+    float jumpForce = 15;
+    float horizontalDampening = 25;
+    float defaultGravity = 70.5f;
+
     // animation
     void animator();
 
@@ -53,15 +68,14 @@ private:
 
     Rectangle getCollisionRec();
 
-    // movement
-    float velocity;
-    bool canJump;
+    void horizontalCollision();
+    void verticalCollision();
 
-    float gravity = 400.0f;
-    float jumpForce = 250.0f;
-    float speed = 150.0f;
-
-
+    //misc
+    bool groundCheck = true;
+    bool wallCheckLeft = false;
+    bool WallCheckRight = false;
+    float gravity = 0.0f;
 public:
 
     Rectangle* collisionRecs = nullptr;
