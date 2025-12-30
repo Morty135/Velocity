@@ -29,7 +29,7 @@ void player::draw()
     {
         position.x -= speed * deltaTime;
     }
-    if (inputManager.getAxisHorizontal() < 0)
+    if (inputManager.getAxisHorizontal() > 0)
     {
         position.x += speed * deltaTime;
     }
@@ -47,10 +47,10 @@ void player::draw()
         if (col.x <= p->x &&
             col.x + col.width >= p->x &&
             col.y >= p->y &&
-            col.y <= p->y + speed * deltaTime)
+            col.y <= p->y + velocity * deltaTime)
         {
             hitObstacle = true;
-            speed = 0.0f;
+            velocity = 0.0f;
             p->y = col.y;
             break;
         }
@@ -58,14 +58,18 @@ void player::draw()
 
     if (!hitObstacle)
     {
-        position.y += speed * deltaTime;
-        speed += gravity * deltaTime;
+        position.y += velocity * deltaTime;
+        velocity += gravity * deltaTime;
         canJump = false;
     }
     else
     {
         canJump = true;
-    } 
+    }
+
+    std::cout << "Player Y position: " << position.y << std::endl;
+    std::cout << "position X: " << position.x << std::endl;
+    std::cout << "Can Jump: " << canJump << std::endl;
 
     DrawRectangleLinesEx(getCollisionRec(), 1, RED);
     DrawCircleV(position, 10, BLUE);
