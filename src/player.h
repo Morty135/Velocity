@@ -57,9 +57,11 @@ private:
     float velocity;
     bool canJump;
 
-    float gravity = 400.0f;
-    float jumpForce = 250.0f;
-    float speed = 150.0f;
+    float gravity = 2700.0f;
+    float jumpForce = 770.0f;
+    float speed = 470.0f;
+
+    void VerticalCollision();
 
 
 public:

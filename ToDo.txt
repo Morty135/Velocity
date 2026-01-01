@@ -1,1 +1,6 @@
 add more movement mechanics
+
+maybe use pointers to the player pos in the collider rectangle
+add collision rectangle to the collision resolution
+
+using pointers may fix the jitter from the previous versions

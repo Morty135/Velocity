@@ -25,47 +25,31 @@ void player::draw()
 {
     float deltaTime = GetFrameTime();
 
-    if (inputManager.getAxisHorizontal() < 0)
+    if (inputManager.getAxisHorizontal() < -0.6f)
+    {
+        position.x -= speed * 1.5f * deltaTime;
+    }
+    else if (inputManager.getAxisHorizontal() < 0)
     {
         position.x -= speed * deltaTime;
     }
-    if (inputManager.getAxisHorizontal() > 0)
+
+    if (inputManager.getAxisHorizontal() > 0.6f)
+    {
+        position.x += speed * 1.5f * deltaTime;
+    }
+    else if (inputManager.getAxisHorizontal() > 0)
     {
         position.x += speed * deltaTime;
     }
+    
     if (inputManager.getAxisJump() && canJump)
     {
         velocity = -jumpForce;
         canJump = false;
     }
 
-    bool hitObstacle = false;
-    for (int i = 0; i < collisionRecsLenght; i++)
-    {
-        Rectangle col = collisionRecs[i];
-        Vector2 *p = &(position);
-        if (col.x <= p->x &&
-            col.x + col.width >= p->x &&
-            col.y >= p->y &&
-            col.y <= p->y + velocity * deltaTime)
-        {
-            hitObstacle = true;
-            velocity = 0.0f;
-            p->y = col.y;
-            break;
-        }
-    }
-
-    if (!hitObstacle)
-    {
-        position.y += velocity * deltaTime;
-        velocity += gravity * deltaTime;
-        canJump = false;
-    }
-    else
-    {
-        canJump = true;
-    }
+    VerticalCollision();
 
     std::cout << "Player Y position: " << position.y << std::endl;
     std::cout << "position X: " << position.x << std::endl;
@@ -155,4 +139,38 @@ Rectangle player::getCollisionRec()
         w,
         h
     };
+}
+
+
+
+void player::VerticalCollision()
+{
+    float deltaTime = GetFrameTime();
+    bool hitObstacle = false;
+    for (int i = 0; i < collisionRecsLenght; i++)
+    {
+        Rectangle col = collisionRecs[i];
+        Rectangle collisionRec = getCollisionRec();
+        if (col.x <= collisionRec.x &&
+            col.x + col.width >= collisionRec.x &&
+            col.y >= collisionRec.y &&
+            col.y <= collisionRec.y + velocity * deltaTime)
+        {
+            hitObstacle = true;
+            velocity = 0.0f;
+            collisionRec.y = col.y;
+            break;
+        }
+    }
+
+    if (!hitObstacle)
+    {
+        position.y += velocity * deltaTime;
+        velocity += gravity * deltaTime;
+        canJump = false;
+    }
+    else
+    {
+        canJump = true;
+    }
 }
