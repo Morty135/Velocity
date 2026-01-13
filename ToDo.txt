@@ -4,3 +4,6 @@ maybe use pointers to the player pos in the collider rectangle
 add collision rectangle to the collision resolution
 
 using pointers may fix the jitter from the previous versions
+
+maybe do the collisions using one point in the middle and set any rectangle bellow as the mininmum height
+same for the walls just set the maximum X to the closest wall intersecting

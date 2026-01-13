@@ -6,16 +6,14 @@
 #include <raymath.h>
 #include <iostream>
 
-#include "input.h"
-
 class mainCamera
 {
 private:
-    input inputManager;
-
     Camera2D camera = { 0 };
     Vector2 currentCameraPos = {0.0f, 0.0f};
     float currentCameraZoom = 1.0;
+
+    Vector2 lastTargetPos = {0.0f, 0.0f};
 
 public:
     Vector2* targetPos = nullptr;
