@@ -7,3 +7,6 @@ using pointers may fix the jitter from the previous versions
 
 maybe do the collisions using one point in the middle and set any rectangle bellow as the mininmum height
 same for the walls just set the maximum X to the closest wall intersecting
+
+maybe the best way:
+keep the jitter add a ground check and wall check as separate colliders

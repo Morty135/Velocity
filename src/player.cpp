@@ -56,7 +56,10 @@ void player::draw()
     std::cout << "Can Jump: " << canJump << std::endl;
 
     DrawRectangleLinesEx(getCollisionRec(), 1, RED);
-    DrawCircleV(position, 10, BLUE);
+    DrawRectangleLinesEx({position.x - getCollisionRec().width*0.5f, position.y + getCollisionRec().height*0.7f, 30, 10}, 1, GREEN);
+    DrawRectangleLinesEx({position.x - getCollisionRec().width*0.5f - 15, position.y + 10, 10, 30}, 1, GREEN);
+    DrawRectangleLinesEx({position.x + getCollisionRec().width*0.5f, position.y + 10, 10, 30}, 1, GREEN);
+    DrawCircleV(position, 30, BLUE);
 
     animator();
 }
