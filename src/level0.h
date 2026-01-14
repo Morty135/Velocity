@@ -12,12 +12,13 @@
 class level0
 {
 private:
-    Rectangle envRecs[4] =
+    Rectangle envRecs[5] =
     {
         {-600,64,1200,40},
         {300, 100,600,40},
         {600, 100,600,3000},
         {1500, 100,600,3000},
+        {2200, 120,2000,120},
     };
 
     int envRecsLength = sizeof(envRecs)/sizeof(envRecs[0]);

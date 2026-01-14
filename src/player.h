@@ -62,6 +62,7 @@ private:
     float speed = 470.0f;
 
     void VerticalCollision();
+    void collision();
 
 
 public:

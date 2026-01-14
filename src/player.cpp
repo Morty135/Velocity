@@ -49,11 +49,8 @@ void player::draw()
         canJump = false;
     }
 
-    VerticalCollision();
-
-    std::cout << "Player Y position: " << position.y << std::endl;
-    std::cout << "position X: " << position.x << std::endl;
-    std::cout << "Can Jump: " << canJump << std::endl;
+    //VerticalCollision();
+    collision();
 
     DrawRectangleLinesEx(getCollisionRec(), 1, RED);
     DrawRectangleLinesEx({position.x - getCollisionRec().width*0.5f, position.y + getCollisionRec().height*0.7f, 30, 10}, 1, GREEN);
@@ -175,5 +172,23 @@ void player::VerticalCollision()
     else
     {
         canJump = true;
+    }
+}
+
+
+
+
+void player::collision()
+{
+    for (int i = 0; i < collisionRecsLenght; i++)
+    {
+        Rectangle col = collisionRecs[i];
+        Rectangle collisionRec = getCollisionRec();
+        if (CheckCollisionRecs(col, collisionRec))
+        {
+            GetCollisionRec(col, collisionRec);
+            std::cout << "Collision detected!" << std::endl;
+            std::cout << "Collision Rectangle: x=" << col.x << ", y=" << col.y << ", width=" << col.width << ", height=" << col.height << std::endl;
+        }
     }
 }
