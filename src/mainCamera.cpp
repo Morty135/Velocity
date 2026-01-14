@@ -21,32 +21,24 @@ Camera2D mainCamera::update()
     if(lastTargetPos.x > targetPos->x)
     {
         currentCameraPos.x = Lerp(currentCameraPos.x,targetPos->x - 300, 0.06f);
-        currentCameraZoom = Lerp(currentCameraZoom,0.8f, 0.04f);
     }
     else if(lastTargetPos.x < targetPos->x)
     {
         currentCameraPos.x = Lerp(currentCameraPos.x,targetPos->x + 300, 0.06f);
-        currentCameraZoom = Lerp(currentCameraZoom,0.8f, 0.04f);
     }
     else
     {
         currentCameraPos.x = Lerp(currentCameraPos.x,targetPos->x, 0.06f);
-        currentCameraZoom = Lerp(currentCameraZoom,1.4f, 0.02f);
     }
-    // vertical lookahead
-    if(lastTargetPos.y > targetPos->y)
+    // zoom and vertical
+    if(lastTargetPos.y != targetPos->y || lastTargetPos.x != targetPos->x)
     {
-        currentCameraPos.y = Lerp(currentCameraPos.y,targetPos->y - 110, 0.1f);
-        currentCameraZoom = Lerp(currentCameraZoom,0.8f, 0.04f);
-    }
-    else if(lastTargetPos.y < targetPos->y)
-    {
-        currentCameraPos.y = Lerp(currentCameraPos.y,targetPos->y +10, 0.1f);
+        currentCameraPos.y = Lerp(currentCameraPos.y,targetPos->y - 50, 0.6f);
         currentCameraZoom = Lerp(currentCameraZoom,0.8f, 0.04f);
     }
     else
     {
-        currentCameraPos.y = Lerp(currentCameraPos.y,targetPos->y -50, 0.6f);
+        currentCameraPos.y = Lerp(currentCameraPos.y,targetPos->y - 50, 0.6f);
         currentCameraZoom = Lerp(currentCameraZoom,1.4f, 0.02f);
     }
 
