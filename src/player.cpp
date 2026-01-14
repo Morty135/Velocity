@@ -52,10 +52,6 @@ void player::draw()
     //VerticalCollision();
     collision();
 
-    DrawRectangleLinesEx(getCollisionRec(), 1, RED);
-    DrawRectangleLinesEx({position.x - getCollisionRec().width*0.5f, position.y + getCollisionRec().height*0.7f, 30, 10}, 1, GREEN);
-    DrawRectangleLinesEx({position.x - getCollisionRec().width*0.5f - 15, position.y + 10, 10, 30}, 1, GREEN);
-    DrawRectangleLinesEx({position.x + getCollisionRec().width*0.5f, position.y + 10, 10, 30}, 1, GREEN);
     DrawCircleV(position, 30, BLUE);
 
     animator();
@@ -180,15 +176,61 @@ void player::VerticalCollision()
 
 void player::collision()
 {
+    Rectangle collisionRec = getCollisionRec();
+
+    Rectangle groundCheckRec = {position.x - collisionRec.width*0.5f, position.y + collisionRec.height*0.67f, 30, 5};
+    Rectangle leftWallCheckRec = {position.x - collisionRec.width*0.5f - 5, position.y + 10, 5, 30};
+    Rectangle rightWallCheckRec = {position.x + collisionRec.width*0.5f, position.y + 10, 5, 30};
+
+    DrawRectangleLinesEx(collisionRec, 1, RED);
+    DrawRectangleLinesEx(groundCheckRec, 1, GREEN);
+    DrawRectangleLinesEx(leftWallCheckRec, 1, GREEN);
+    DrawRectangleLinesEx(rightWallCheckRec, 1, GREEN);
+
+    groundCheck = false;
+    wallCheckLeft = false;
+    wallCheckRight = false;
+
+    bool collided = false;
+
+    Rectangle groundRec;
+
     for (int i = 0; i < collisionRecsLenght; i++)
     {
         Rectangle col = collisionRecs[i];
-        Rectangle collisionRec = getCollisionRec();
         if (CheckCollisionRecs(col, collisionRec))
         {
-            GetCollisionRec(col, collisionRec);
-            std::cout << "Collision detected!" << std::endl;
-            std::cout << "Collision Rectangle: x=" << col.x << ", y=" << col.y << ", width=" << col.width << ", height=" << col.height << std::endl;
+            collided = true;
         }
+        if (CheckCollisionRecs(col, groundCheckRec))
+        {
+            groundRec = GetCollisionRec(col, collisionRec);
+            groundCheck = true;
+            velocity = 0.0f;
+            position.y = col.y - collisionRec.height * 0.5f;
+        }
+        if (CheckCollisionRecs(col, leftWallCheckRec))
+        {
+            wallCheckLeft = true;
+        }
+        if (CheckCollisionRecs(col, rightWallCheckRec))
+        {
+            wallCheckRight = true;
+        }
+    }
+
+    if(collided == false)
+    {
+        position.y += velocity * GetFrameTime();
+        velocity += gravity * GetFrameTime();
+    }
+    else
+    {
+        velocity = 0.0f;
+        collisionRec.y = groundRec.y + collisionRec.height*0.5f;
+    }
+    if(groundCheck == true)
+    {
+        canJump = true;
     }
 }

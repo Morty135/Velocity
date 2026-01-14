@@ -57,6 +57,10 @@ private:
     float velocity;
     bool canJump;
 
+    bool wallCheckLeft = false;
+    bool wallCheckRight = false;
+    bool groundCheck = false;
+
     float gravity = 2700.0f;
     float jumpForce = 770.0f;
     float speed = 470.0f;
