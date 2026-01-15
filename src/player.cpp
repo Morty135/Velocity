@@ -219,15 +219,20 @@ void player::collision()
         }
     }
 
-    if(collided == false)
+    std::cout << "Ground Check: " << groundCheck << std::endl;
+    std::cout << "Wall Check Left: " << wallCheckLeft << std::endl;
+    std::cout << "Wall Check Right: " << wallCheckRight << std::endl;
+    std::cout << "collided: " << collided << std::endl;
+
+    if(collided == true && groundCheck == true)
     {
-        position.y += velocity * GetFrameTime();
-        velocity += gravity * GetFrameTime();
+        //velocity = 0.0f;
+        position.y = groundRec.y - collisionRec.height*0.66f;
     }
     else
     {
-        velocity = 0.0f;
-        collisionRec.y = groundRec.y + collisionRec.height*0.5f;
+        position.y += velocity * GetFrameTime();
+        velocity += gravity * GetFrameTime();
     }
     if(groundCheck == true)
     {
