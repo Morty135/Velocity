@@ -4,8 +4,6 @@
 
 #include "level0.h"
 #include "menu.h"
-#include "sceeneManager.h"
-
 
 
 int main()
@@ -17,10 +15,16 @@ int main()
     level0 level0;
     menu menu;
 
-    while (WindowShouldClose() == false)
+    while (WindowShouldClose() == false && currentScene != scenes::EXIT)
     {
-        menu.draw();
-        //level0.draw();
+        if(currentScene == scenes::LEVEL0)
+        {
+            level0.draw();
+        }
+        if(currentScene == scenes::MAINMENU)
+        {
+            menu.draw();
+        }
     }
 
     CloseWindow();

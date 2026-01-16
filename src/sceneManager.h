@@ -3,17 +3,18 @@
 
 enum class scenes
 {
+    EXIT,
     MAINMENU,
     LEVEL0,
 };
+
+extern scenes currentScene;
 
 class sceeneManager
 {
 private:
 
 public:
-    scenes currentScene = scenes::MAINMENU;
-
     sceeneManager();
     ~sceeneManager();
 

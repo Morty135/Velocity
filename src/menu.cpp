@@ -44,11 +44,11 @@ void menu::button(Rectangle buttonRec, const char * text)
             PlaySound(clickFx);
             if (text == "Play")
             {
-                //switch scene
+                currentScene = scenes::LEVEL0;
             }
             if (text == "Exit")
             {
-                //switch scene
+                currentScene = scenes::EXIT;
             }
         }
     }

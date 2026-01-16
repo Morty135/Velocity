@@ -1,10 +1,12 @@
-#pragma once
+#ifndef MENU_H
+#define MEUN_H
 
 #include <raylib.h>
 #include <raymath.h>
 #include <iostream>
 
 #include "player.h"
+#include "sceneManager.h"
 
 
 class menu
@@ -27,3 +29,5 @@ public:
 
     void button(Rectangle buttonRec, const char * text);
 };
+
+#endif
